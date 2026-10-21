@@ -15,7 +15,7 @@ Sources:
 - [LibSignal](https://github.com/DaRL-LibSignal/LibSignal) is the recorded source family for the New York scenario. Do not assume that a project's software terms automatically resolve every dataset's terms.
 - OpenStreetMap-derived map data: **© OpenStreetMap contributors**, available under the [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/). See [OpenStreetMap copyright and license](https://www.openstreetmap.org/copyright). This attribution applies to the underlying OSM map data, not automatically to every demand or simulation file.
 
-For a local setup, point `CILIGHT_DATA_ROOT` or `--data-root` at this repository's `scenarios/` directory. For example, from the repository root: `python -B run.py check --network grid16 --data-root ./scenarios`. The code verifies exact SHA-256 digests and controlled-signal counts. The four configurations bind the required network, detector, signal, conversion and demand files.
+The runner uses this repository's `scenarios/` directory by default. Use `CILIGHT_DATA_ROOT` or `--data-root` to select another location. For example: `python -B run.py check --network grid16`. The code verifies exact SHA-256 digests and controlled-signal counts. The four configurations bind the required network, detector, signal, conversion and demand files.
 
 The supplied New York SUMO conversion has 196 controlled intersections, 70 virtual intersections, 854 directed roads and 11,044 vehicles. The conversion report records 14 invalid input flow records omitted from 11,058 source records. Eight source green phases per signal are selectable, with separate 5 s yellow transitions. These are scenario characteristics, not new conversions performed for this release.
 

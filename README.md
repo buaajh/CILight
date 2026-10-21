@@ -1,154 +1,78 @@
 # CILight
 
-CILight augments complementarity-implicit model predictive control (CI-MPC) with a learned terminal cost for traffic signal control. This repository contains **CILight** and its **CI-MPC** ablation, with configurations for Grid16, Ingolstadt21, Nanshan55, and New York196.
+Evaluation code for **CILight** and **CI-MPC** on four road networks. CILight augments complementarity-implicit model predictive control with a learned terminal cost; CI-MPC uses the same controller without that cost.
 
-The two methods share the traffic model, phase constraints, and execution logic. CILight adds a shared local terminal critic to candidate-sequence evaluation; CI-MPC uses no learned critic. The critic is a 12–32–32–1 multilayer perceptron. The released CILight path does not require a PPO actor or a graph neural network.
-
-## Contents
-
-```text
-configs/             Four network profiles, seed panels, input/model SHA-256
-controllers/         CI prediction, phase search, coordination and execution
-rl/terminal_value.py  Terminal features, critic, NumPy inference and learning
-cilight/             Portable runner, metrics, validation selection and reporting
-final_weights/       Four validation-selected final CILight weight files
-scenarios/           SUMO inputs for all four road networks
-provenance/          Original source and checkpoint identities
-tests/               Simulator-free unit tests
-run.py               check / evaluate / train / summarize
-```
-
-The numerical controller files retain their historical module names to preserve traceability. Only the terminal-value branch is exported from the former A/B experiment modules; its functions and classes are AST-identical to the originals. Historical launchers, monitoring scripts, runtime environments, raw run directories, and other comparison methods are excluded.
+The repository includes the scenario inputs and **final weights** needed to run both methods.
 
 ## Installation
 
-Use Python 3.12 and [Eclipse SUMO 1.27.1](https://sumo.dlr.de/docs/Downloads.php). Set `SUMO_HOME` to the installation directory containing `bin/` and `tools/`. Matching TraCI and sumolib modules are taken from that installation.
+Use Python 3.12 and [Eclipse SUMO 1.27.1](https://sumo.dlr.de/docs/Downloads.php).
 
 ```bash
+git clone https://github.com/buaajh/CILight.git
+cd CILight
 python -m venv .venv
-# Linux/macOS: source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
+# Linux/macOS: source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-The packaged code was checked with Python 3.12.14, NumPy 1.26.4, SciPy 1.14.1 and PyTorch 2.7.1. A CPU PyTorch installation is sufficient for the small critic. SUMO and the local MPC workers run on CPU. The original Windows execution environment used a CUDA-enabled PyTorch build; this release does not claim cross-platform bitwise equivalence.
-
-Run the following from the cloned repository root to use the included scenarios:
+Set `SUMO_HOME` to your SUMO installation, which contains `bin/` and `tools/`:
 
 ```powershell
-$env:SUMO_HOME = 'D:/software/sumo-1.27.1'
-$env:CILIGHT_DATA_ROOT = (Resolve-Path './scenarios').Path
+$env:SUMO_HOME = 'D:/software/sumo-1.27.1'  # Windows: adjust this path
 ```
 
 ```bash
-export SUMO_HOME=/opt/sumo-1.27.1
-export CILIGHT_DATA_ROOT="$PWD/scenarios"
+export SUMO_HOME=/opt/sumo-1.27.1  # Linux/macOS: adjust this path
 ```
 
-## Road networks and data
+CPU execution is supported. Run evaluations serially with at least 12 GiB available RAM and 10 GiB free output-disk space.
 
-| CLI network | Signals | Original test seeds | Yellow (s) | Solver workers |
-|---|---:|---|---:|---:|
-| `grid16` | 16 | 962001–962004 | 3 | 1 |
-| `ingolstadt21` | 21 | 972001–972004 | 3 | 1 |
-| `nanshan55` | 55 | 982001–982004 | 3 | 1 |
-| `newyork196` | 196 | 992001–992004 | 5 | 8 |
+## Networks and final weights
 
-The repository includes the following scenario layout. Set `CILIGHT_DATA_ROOT` as above, or pass `--data-root ./scenarios` explicitly:
+| Network argument | Signals | Test seeds |
+|---|---:|---|
+| `grid16` | 16 | 962001–962004 |
+| `ingolstadt21` | 21 | 972001–972004 |
+| `nanshan55` | 55 | 982001–982004 |
+| `newyork196` | 196 | 992001–992004 |
 
-```text
-scenarios/
-  grid16/grid4x4.sumocfg
-  ingolstadt21/ingolstadt21.sumocfg
-  nanshan55/osm.sumocfg
-  newyork196/newyork.sumocfg
-```
+- `scenarios/`: SUMO network, demand and signal files.
+- `final_weights/`: one numeric `.npz` weight file per network, loaded automatically for CILight.
+- `configs/`: evaluation settings, test seeds and file hashes.
+- `controllers/` and `rl/`: traffic control and terminal-value inference.
 
-Each directory includes the network, route and additional files listed in `configs/<network>.json`. These manifests record the SHA-256 digests of the exact experimental inputs.
+Clone the repository or use **Code → Download ZIP** for the complete package. `CILight_public_code.zip` contains code and final weights only. Dataset sources and terms are listed in [DATASETS.md](DATASETS.md).
 
-All four scenarios are included under `scenarios/`. Grid16 and Ingolstadt21 were imported through RESCO. Nanshan uses an OpenStreetMap-derived network. New York is the 196-signal SUMO conversion of `roadnet_28_7` / `anon_28_7_newyork_real_double`. Dataset sources and attribution are recorded in [DATASETS.md](DATASETS.md); the code's MIT license does not replace the datasets' terms.
+## Run evaluation
 
-Clone the repository or use GitHub's **Code > Download ZIP** for the complete code, weights and scenario inputs. The separately retained `CILight_public_code.zip` contains code and final weights only.
-
-## Final weights
-
-[`final_weights/`](final_weights/) contains one validation-selected final terminal-value network for each road network: `grid16.npz`, `ingolstadt21.npz`, `nanshan55.npz` and `newyork196.npz`.
-
-CILight uses these weights to estimate the continuation cost beyond the MPC prediction horizon. The four network configurations load the corresponding file automatically. CI-MPC uses no learned weights. Each file contains only the six numeric weight and bias arrays of the 12-32-32-1 terminal-value network; optimizer state, training logs and simulation results are excluded. The exported tensors match the original selected models exactly.
-
-## Check the installation inputs
+From the repository root, check the inputs and then evaluate both methods:
 
 ```bash
 python -B run.py check --network grid16
-python -B run.py check --network ingolstadt21
-python -B run.py check --network nanshan55
-python -B run.py check --network newyork196
-```
-
-These checks verify source, checkpoint, scenario hashes and signal counts. They do not start SUMO or deserialize models.
-
-## Evaluate CI-MPC and CILight
-
-```bash
 python -B run.py evaluate --network grid16 --method both --output runs/grid16
 python -B run.py evaluate --network ingolstadt21 --method both --output runs/ingolstadt21
 python -B run.py evaluate --network nanshan55 --method both --output runs/nanshan55
 python -B run.py evaluate --network newyork196 --method both --output runs/newyork196
 ```
 
-Run the commands sequentially. Each command uses the four original test seeds, 3,600 simulated seconds per seed, and the supplied validation-selected checkpoint. Use `--method ci-mpc` or `--method cilight` for one method. CI-MPC does not load a model. Shorter `--seconds` values are smoke tests, not paper results.
+Each evaluation uses the four listed seeds and 3,600 simulation seconds per method and seed. Use `--method cilight` or `--method ci-mpc` to run one method. Inputs default to `scenarios/`; `--data-root` can specify another location. Use a fresh output directory for each run.
 
-The shared controller profile is a 10 s decision interval, a three-step prediction horizon, a 10 s minimum green and a 60 s maximum green. CILight's evaluation terminal weight is 0.5. The preserved SUMO launcher explicitly uses `--time-to-teleport 300`, including for New York; this command-line value overrides the setting in its source configuration.
+## Results
 
-Every run writes metrics, action decisions, observed phases, native SUMO trip/statistics XML, lane queue samples and a hash-bound completion marker. A failed or interrupted run is retained without a completion marker. Existing output directories are never overwritten or automatically resumed. Create an `output/STOP` file to request shutdown at a control boundary. The serial launcher requires at least 12 GiB available physical RAM and 10 GiB free output-disk space; full training needs substantially more storage. It refuses to start alongside unrelated SUMO processes. It does not manage the machine's other applications.
+Each output directory contains per-seed metrics and traces, plus `summary.csv` with means and **sample standard deviations** across the four traffic seeds using the fixed final weights.
 
-The entry-point wrapper is new packaging code. Source/checkpoint identity and simulator-free tests have been checked; the packaged wrapper has **not** been validated by rerunning the full benchmark. See [VALIDATION.md](VALIDATION.md).
+ATT is SUMO's `totalTravelTime / count`; AWT and ADT are its average `waitingTime` and `timeLoss`. Trip output includes unfinished trips at the simulation horizon. AQL is the time-averaged halting count per controlled incoming lane. Decision latency and simulation wall time are reported separately and depend on the hardware.
 
-## Train a fresh CILight critic
-
-```bash
-python -B run.py train --network grid16 --output runs/train_grid16
-```
-
-Replace the network name for the other three profiles. Each invocation starts from a fresh initialization and uses the original disjoint training and validation seed panels. Training uses Adam (learning rate 0.0003), 25 fitting epochs per episode and a discount factor of 0.98. The terminal weight is 0 for episodes 1–2, then 0.05, 0.10 and 0.15, and 0.20 from episode 6 onward.
-
-Validation uses four fixed seeds every 10 episodes at terminal weight 0.5. Selection requires at least a 1% mean ATT improvement and improvement on at least three seeds, with the original AWT, ADT and completion-count guards. Early stopping begins at episode 60, with patience of six validation points and a 300-episode cap. Teleports are recorded but do not enter checkpoint selection. No test outcomes are used for selection.
-
-Training writes `selected.pt` and `selection.json` and then stops. Evaluate that checkpoint explicitly, using its recorded SHA-256:
-
-```bash
-python -B run.py evaluate --network grid16 --method both --output runs/grid16_fresh_test \
-  --checkpoint runs/train_grid16/selected.pt --checkpoint-sha256 SHA256_FROM_SELECTION_JSON
-```
-
-Join this command onto one line in PowerShell. The supplied `.npz` files contain only six numeric weight/bias arrays and are loaded with `allow_pickle=False`. Their tensors exactly match the original selected checkpoints; export receipts are in `provenance/weight_export.json`. Training-generated `.pt` snapshots also contain optimizer/RNG state and use pickle-based deserialization: load only trusted files. A hash verifies identity, not the safety of an unknown file.
-
-## Metrics and summaries
-
-`summary.csv` contains means and **sample standard deviations** (`ddof=1`) across the completed seed panel. A separate summary can be generated with:
+To regenerate a summary:
 
 ```bash
 python -B run.py summarize --input runs/nanshan55 --output runs/nanshan55_summary.csv
 ```
 
-- **ATT**: native SUMO `totalTravelTime / count`.
-- **AWT** and **ADT**: native `waitingTime` and `timeLoss` averages.
-- Trip output includes vehicles that have departed but have not finished at the horizon. These averages do not silently become completed-trip-only metrics, and uninserted vehicles are not assigned fabricated travel times.
-- **AQL**: time-averaged halting count per unique controlled incoming lane, including empty lanes.
-- Decision latency is measured over whole-network controller updates. Simulation wall time is reported separately. These timings depend on hardware, concurrency and instrumentation.
+## Validation and license
 
-Four traffic seeds quantify traffic-seed variability for one trained model; they are not four independent training repetitions.
+Run the simulator-free checks with `python -B -m unittest discover -s tests -v`. See [VALIDATION.md](VALIDATION.md) for verification scope.
 
-## Tests
-
-```bash
-python -B -m unittest discover -s tests -v
-```
-
-Tests exercise the terminal critic, metric accounting, source identities, seed separation, output isolation and aggregation without running SUMO or loading the four pretrained checkpoints.
-
-## License and attribution
-
-Original CILight code is released under the [MIT License](LICENSE). Third-party software and datasets retain their own terms; they are not relicensed by this repository. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
-Repository: [buaajh/CILight](https://github.com/buaajh/CILight). Paper citation metadata can be added when the final title and publication details are available.
+Original code is released under the [MIT License](LICENSE). Third-party software and datasets retain their own terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

@@ -1,22 +1,16 @@
 # Release validation
 
-Packaging date: 2026-10-21.
+## Evaluation-only release
 
-## Checked
+- The four final-weight archives and all scenario inputs are unchanged.
+- Core CI-MPC source files, terminal features and terminal-value inference retain their reference definitions.
+- The runner supports input checks, fixed-weight evaluation and result summaries. Training, model selection and training-only trajectory outputs are excluded.
+- The terminal-value controller retains its control computation; only training-sample collection has been removed.
 
-- Eleven controller/configuration/metric helper files copied byte-for-byte from the mainline frozen source manifest.
-- `TerminalValueCIMPC` and six terminal-critic definitions extracted without changing their ASTs; unused A/B-policy imports excluded.
-- AQL and validation-selection policy copied from the mainline sources.
-- The four final weight files are hash-bound to the original validation-selected models.
-- All six tensors in each exported `.npz` are exactly equal to the corresponding original checkpoint tensors. No controller/model was instantiated during this conversion, and no inference was run. Original `.pt` files remain in the local companion directory.
-- All four scenario manifests match the exact local input files; controlled signal counts are 16, 21, 55 and 196.
-- Core controller import and SUMO 1.27.1 binary version check succeed.
-- All 15 simulator-free tests pass. They cover source identities, syntax, seed panels, tensor archives, terminal-zero behavior, NumPy/PyTorch critic consistency, synthetic critic fitting, the beta schedule, AQL, native metric cross-checks, output isolation, demand counting, sample-SD aggregation and a mocked full episode/close lifecycle. The lifecycle test uses a TraCI substitute, not a real simulation.
+## Checks
 
-## Scope of these checks
+Simulator-free tests cover file identities, numeric weight loading, fixed test seeds, terminal-value inference, metric accounting, output isolation, sample-standard-deviation aggregation and a mocked TraCI run with native cleanup.
 
-No SUMO simulation, full training run or formal baseline rerun was launched for packaging. The portable orchestration/IO wrapper is newly written and has not been certified against the historical full-seed action traces. Exact core-source or weight identity is not a claim of full benchmark equivalence. Timing instrumentation is also not identical to the old campaign launcher.
+`run.py check` verifies the source, final-weight and scenario hashes and the controlled-signal counts for all four networks. It does not run a simulation.
 
-No Nanshan baseline-discrepancy diagnosis was performed. The existing unresolved discrepancy is retained as a reporting limitation, not relabeled as a passed reproducibility check.
-
-All four exact scenarios are included in the repository under `scenarios/`, following the repository owner's 2026-10-21 publication request. Their input hashes and controlled-signal counts are unchanged. The final model weights are stored in `final_weights/`; configuration and provenance paths are updated while weight bytes remain identical. The separately retained `CILight_public_code.zip` contains code and final weights only.
+These checks validate the release structure and evaluation components, not full benchmark equivalence. The packaged runner has not been compared against complete reference action traces. Reported runtimes depend on the execution environment and instrumentation. The previously observed Nanshan baseline discrepancy remains unresolved; no further diagnosis was performed.
