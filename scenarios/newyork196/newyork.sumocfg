@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<configuration>
+  <input>
+    <net-file value="cityflow.net.xml" />
+    <route-files value="cityflow.rou.xml" />
+  </input>
+  <time>
+    <begin value="0" />
+    <end value="3600" />
+  </time>
+  <processing>
+    <time-to-teleport value="-1" />
+  </processing>
+  <report>
+    <no-step-log value="true" />
+  </report>
+</configuration>
