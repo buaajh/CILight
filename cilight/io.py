@@ -38,7 +38,7 @@ def spec(network):
 def verify_code():
     for item in read(ROOT / 'provenance/sources.json')['files']:
         if sha(ROOT / item['path']) != item['sha256']:
-            raise ValueError('Reference source/checkpoint changed: ' + item['path'])
+            raise ValueError('Reference source/final weights changed: ' + item['path'])
 
 
 def verify_inputs(settings, data_root):

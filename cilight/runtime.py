@@ -2,7 +2,6 @@
 import math
 import os
 from pathlib import Path
-import random
 import statistics
 import subprocess
 import sys
@@ -62,24 +61,22 @@ def admission(output, stop=None):
 
 
 def load_critic(path, expected_sha256):
-    """Only deserialize an explicitly SHA-bound, trusted checkpoint."""
+    """Load the numeric final-weight archive bound to the network profile."""
+    if Path(path).suffix != '.npz':
+        raise ValueError('Final weights must be a numeric .npz archive')
     if sha(path) != expected_sha256:
-        raise ValueError('Checkpoint digest mismatch')
+        raise ValueError('Final weights digest mismatch')
+    import numpy as np
     import torch
     from rl.terminal_value import TerminalCritic
     critic = TerminalCritic()
-    if Path(path).suffix == '.npz':
-        import numpy as np
-        with np.load(path, allow_pickle=False) as arrays:
-            state = {name: torch.from_numpy(arrays[name].copy()) for name in arrays.files}
-    else:
-        # User-generated training snapshots also contain optimizer/RNG history.
-        # Accept only locally trusted files, bound by the supplied digest.
-        state = torch.load(path, map_location='cpu', weights_only=False)['model']
+    with np.load(path, allow_pickle=False) as arrays:
+        state = {name: torch.from_numpy(arrays[name].copy()) for name in arrays.files}
     if any(not torch.isfinite(value).all() for value in state.values()):
-        raise ValueError('Non-finite checkpoint tensor')
+        raise ValueError('Non-finite final weight tensor')
     critic.load_state_dict(state, strict=True)
     critic.eval()
+    critic.requires_grad_(False)
     return critic
 
 
@@ -165,7 +162,6 @@ def run_episode(settings, source, destination, seed, critic=None, beta=0., secon
                 if (t + 1) % 100 == 0:
                     save(destination / 'progress.json', dict(simulation_s=t+1, seconds=seconds, seed=seed))
         diagnostics = list(controller.diagnostics)
-        learning = controller.learning_rows
         trace = controller.actual_phase_trace
         failures = sum(not row['success'] for row in controller.local_diagnostics)
     finally:
@@ -185,8 +181,8 @@ def run_episode(settings, source, destination, seed, critic=None, beta=0., secon
     if failures:
         raise RuntimeError(f'{failures} local solver failures; retained as partial, not complete')
     expected = seconds // int(settings['interval'])
-    if len(diagnostics) != expected or len(learning) != expected:
-        raise ValueError('Incomplete decision/learning horizon')
+    if len(diagnostics) != expected:
+        raise ValueError('Incomplete decision horizon')
     observed = {row['time']: row['nodes'] for row in trace}
     for row in diagnostics:
         for item in row['phase_choices'].split(';'):
@@ -210,9 +206,8 @@ def run_episode(settings, source, destination, seed, critic=None, beta=0., secon
     save(destination / 'actions.json', actions)
     save(destination / 'observed_phase_trace.json', trace)
     save(destination / 'metrics.json', metrics)
-    torch.save(dict(rows=learning), destination / 'learning.pt')
     files = ('metrics.json', 'actions.json', 'observed_phase_trace.json', 'statistics.xml', 'tripinfo.xml',
-             'aql_samples.jsonl', 'learning.pt', 'request.json')
+             'aql_samples.jsonl', 'request.json')
     save(destination / 'complete.json', dict(sha256={name: sha(destination / name) for name in files}))
     print(f"{settings['name']} / {metrics['method']} / {seed}: ATT={metrics['average_trip_time_s']}", flush=True)
-    return metrics, learning
+    return metrics
