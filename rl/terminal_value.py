@@ -55,28 +55,3 @@ class NumpyTerminalValue:
                 x = np.tanh(x)
         return self.beta * GAMMA**self.horizon * COST_SCALE * float(np.clip(x[0], 0, 100))
 
-
-def fit_terminal(model, optimizer, rows, seed, epochs=25):
-    """Finite-episode Monte Carlo policy evaluation, not cross-episode GAE."""
-    features = np.stack([r['features'] for r in rows])
-    cost = np.stack([r['cost'] for r in rows])
-    targets = np.zeros_like(cost)
-    tail = np.zeros(cost.shape[1])
-    for i in reversed(range(len(rows))):
-        tail = cost[i] + GAMMA*tail
-        targets[i] = tail
-    x = torch.tensor(features.reshape(-1, 12), dtype=torch.float32)
-    y = torch.tensor(targets.reshape(-1), dtype=torch.float32)
-    rng = np.random.default_rng(seed)
-    errors = []
-    for _ in range(epochs):
-        for ids in np.array_split(rng.permutation(len(x)), max(1, (len(x)+255)//256)):
-            loss = nn.functional.smooth_l1_loss(model(x[ids]), y[ids])
-            optimizer.zero_grad(set_to_none=True)
-            loss.backward()
-            nn.utils.clip_grad_norm_(model.parameters(), 1., error_if_nonfinite=True)
-            optimizer.step()
-            errors.append(float(loss.detach()))
-    return {'loss': float(np.mean(errors)), 'samples': len(x),
-            'target_mean': float(y.mean()), 'target_max': float(y.max())}
-
