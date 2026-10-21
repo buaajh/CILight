@@ -1,0 +1,5 @@
+* text=auto
+# Preserve byte-level provenance for copied reference source and model files.
+*.py -text
+*.pt binary
+*.npz binary

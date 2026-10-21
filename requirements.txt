@@ -1,0 +1,6 @@
+# SUMO 1.27.1 supplies matching traci/sumolib in SUMO_HOME/tools.
+# Install PyTorch for your platform first (CPU is sufficient for the shared MLP).
+numpy==1.26.4
+scipy==1.14.1
+torch==2.7.1
+psutil==7.2.2
