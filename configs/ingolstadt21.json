@@ -10,24 +10,12 @@
   "max_green": 60,
   "yellow": 3,
   "solver_workers": 1,
-  "seed_base": 970000,
   "test_seeds": [
     972001,
     972002,
     972003,
     972004
   ],
-  "validation_seeds": [
-    971001,
-    971002,
-    971003,
-    971004
-  ],
-  "model_seed": 973001,
-  "update_seed": 974000,
-  "checkpoint": "final_weights/ingolstadt21.npz",
-  "checkpoint_sha256": "e2be0599bfcbadfc57e7cd50798c841b8b9bf72f5395d60417b616400bbc0897",
-  "test_used_for_selection": false,
   "evaluation_beta": 0.5,
   "inputs": [
     {
@@ -61,5 +49,6 @@
       "bytes": 35149
     }
   ],
-  "original_checkpoint_sha256": "98f979453938149fdd7b85466fadfbef59cc407130017420d2bafea7590f8320"
+  "weights": "final_weights/ingolstadt21.npz",
+  "weights_sha256": "e2be0599bfcbadfc57e7cd50798c841b8b9bf72f5395d60417b616400bbc0897"
 }

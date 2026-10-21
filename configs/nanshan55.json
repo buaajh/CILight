@@ -10,24 +10,12 @@
   "max_green": 60,
   "yellow": 3,
   "solver_workers": 1,
-  "seed_base": 980000,
   "test_seeds": [
     982001,
     982002,
     982003,
     982004
   ],
-  "validation_seeds": [
-    981001,
-    981002,
-    981003,
-    981004
-  ],
-  "model_seed": 983001,
-  "update_seed": 984000,
-  "checkpoint": "final_weights/nanshan55.npz",
-  "checkpoint_sha256": "23170502c32d660605f10b5f785b09f17a7a488148777c86e989330921a6b6df",
-  "test_used_for_selection": false,
   "evaluation_beta": 0.5,
   "inputs": [
     {
@@ -86,5 +74,6 @@
       "bytes": 1955
     }
   ],
-  "original_checkpoint_sha256": "cc4c083199b75fd8d1f697e85b58551af8efe43acd3b1591d93c42c0fc2a4110"
+  "weights": "final_weights/nanshan55.npz",
+  "weights_sha256": "23170502c32d660605f10b5f785b09f17a7a488148777c86e989330921a6b6df"
 }

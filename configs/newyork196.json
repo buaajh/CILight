@@ -10,24 +10,12 @@
   "max_green": 60,
   "yellow": 5,
   "solver_workers": 8,
-  "seed_base": 990000,
   "test_seeds": [
     992001,
     992002,
     992003,
     992004
   ],
-  "validation_seeds": [
-    991001,
-    991002,
-    991003,
-    991004
-  ],
-  "model_seed": 993001,
-  "update_seed": 994000,
-  "checkpoint": "final_weights/newyork196.npz",
-  "checkpoint_sha256": "09f4e725bcf5bb038be27a09c2e4f58406679f9a4b8d291b2c6e719a5e6182e3",
-  "test_used_for_selection": false,
   "evaluation_beta": 0.5,
   "inputs": [
     {
@@ -46,5 +34,6 @@
       "bytes": 386
     }
   ],
-  "original_checkpoint_sha256": "d195b3f9decff30573b8f1a0ad8c7e4d5ea0177dea1f4fc85c719881c2aa3b54"
+  "weights": "final_weights/newyork196.npz",
+  "weights_sha256": "09f4e725bcf5bb038be27a09c2e4f58406679f9a4b8d291b2c6e719a5e6182e3"
 }
