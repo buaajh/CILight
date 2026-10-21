@@ -70,26 +70,26 @@
       "path": "rl/terminal_value.py",
       "source": "benchmark/rl/terminal_budget_ab.py",
       "source_sha256": "1025fc828c98d0f9e9c5e5b46c87ac506dae3e7e92c393829144c0a61ac1a462",
-      "sha256": "c93e8ed80da5424d059049a6dfd861ea1a1ca35b9d974f69da31882114f14e02",
+      "sha256": "3aa0dc6ebddc7892125c90e30479199cd286be0214bb22848176169d955b57a3",
       "mode": "AST_identical_extraction",
       "symbols": [
         "GAMMA",
         "COST_SCALE",
         "terminal_features",
         "TerminalCritic",
-        "NumpyTerminalValue",
-        "fit_terminal"
+        "NumpyTerminalValue"
       ]
     },
     {
       "path": "controllers/terminal_value.py",
       "source": "benchmark/controllers/terminal_budget_ab.py",
       "source_sha256": "d1e25224d4753b7c77c93908c57f1dc5aa096abd7a54225f0647d00eb14472a5",
-      "sha256": "1e833504304b60889c6a7255ade3d82ab9b0da5fe57188be9112302fa2826b99",
-      "mode": "AST_identical_extraction",
+      "sha256": "0e20366f0b5a5cf060ca81d83c1c29037aa54ce3a61d5aa098a1efbe5a479809",
+      "mode": "evaluation_only_extraction",
       "symbols": [
         "TerminalValueCIMPC"
-      ]
+      ],
+      "note": "Control computation retained; training-sample collection removed."
     },
     {
       "path": "cilight/aql.py",
@@ -98,14 +98,8 @@
       "mode": "byte_identical"
     },
     {
-      "path": "cilight/selection_policy.py",
-      "source": "mainline/early_stop_v1/policy.py",
-      "sha256": "ad284ab24dfae79bf3cd78a4d30dce7fd59e1a4d14d269db436f8b53a5825bd7",
-      "mode": "byte_identical"
-    },
-    {
       "path": "final_weights/grid16.npz",
-      "source": "Original validation-selected Grid16 terminal-value model",
+      "source": "Final Grid16 terminal-value model",
       "sha256": "4cc04c2fbd23409f964c1d2c93ada78438cee2486db238f307eb22747f2e7e86",
       "mode": "tensor_exact_npz_export",
       "source_sha256": "7039cb1f75e6e6736c5344a1c09d65172cd24dfe4a19e4b11313bc2925ec40f7",
@@ -120,7 +114,7 @@
     },
     {
       "path": "final_weights/ingolstadt21.npz",
-      "source": "Original validation-selected Ingolstadt21 terminal-value model",
+      "source": "Final Ingolstadt21 terminal-value model",
       "sha256": "e2be0599bfcbadfc57e7cd50798c841b8b9bf72f5395d60417b616400bbc0897",
       "mode": "tensor_exact_npz_export",
       "source_sha256": "98f979453938149fdd7b85466fadfbef59cc407130017420d2bafea7590f8320",
@@ -135,7 +129,7 @@
     },
     {
       "path": "final_weights/nanshan55.npz",
-      "source": "Original validation-selected Nanshan55 terminal-value model",
+      "source": "Final Nanshan55 terminal-value model",
       "sha256": "23170502c32d660605f10b5f785b09f17a7a488148777c86e989330921a6b6df",
       "mode": "tensor_exact_npz_export",
       "source_sha256": "cc4c083199b75fd8d1f697e85b58551af8efe43acd3b1591d93c42c0fc2a4110",
@@ -150,7 +144,7 @@
     },
     {
       "path": "final_weights/newyork196.npz",
-      "source": "Original validation-selected New York196 terminal-value model",
+      "source": "Final New York196 terminal-value model",
       "sha256": "09f4e725bcf5bb038be27a09c2e4f58406679f9a4b8d291b2c6e719a5e6182e3",
       "mode": "tensor_exact_npz_export",
       "source_sha256": "d195b3f9decff30573b8f1a0ad8c7e4d5ea0177dea1f4fc85c719881c2aa3b54",
@@ -164,5 +158,5 @@
       }
     }
   ],
-  "note": "No SUMO run or model inference. Core source identity and exact selected checkpoint tensors are preserved; weights exported with a restricted data-only loader."
+  "note": "Reference source identities and exact numeric final weights for evaluation."
 }
