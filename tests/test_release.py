@@ -12,13 +12,12 @@ from cilight.aql import AQL
 from cilight.io import ROOT, NETWORKS, isolated_config, save, sha, spec, verify_code, verify_result
 from cilight.runtime import demand_count
 from cilight.summary import FIELDS, summarize
-from cilight.training import beta_for_episode
-from rl.terminal_value import TerminalCritic, NumpyTerminalValue, terminal_features, fit_terminal, GAMMA, COST_SCALE
+from rl.terminal_value import TerminalCritic, NumpyTerminalValue, terminal_features, GAMMA, COST_SCALE
 from utils.sumo_statistics import summarize_statistics, verify_statistics_against_trips
 
 
 class ReleaseTests(unittest.TestCase):
-    def test_source_and_checkpoint_hashes(self):
+    def test_source_and_weight_hashes(self):
         verify_code()
 
     def test_all_python_syntax(self):
@@ -28,12 +27,9 @@ class ReleaseTests(unittest.TestCase):
     def test_seed_panels(self):
         for name in NETWORKS:
             cfg = spec(name)
-            train = set(range(cfg['seed_base']+1, cfg['seed_base']+301))
-            self.assertFalse(train & set(cfg['test_seeds']))
-            self.assertFalse(train & set(cfg['validation_seeds']))
-            self.assertFalse(set(cfg['validation_seeds']) & set(cfg['test_seeds']))
             self.assertEqual(len(cfg['test_seeds']), 4)
-            self.assertFalse(cfg['test_used_for_selection'])
+            self.assertEqual(len(set(cfg['test_seeds'])), 4)
+            self.assertTrue(all(isinstance(seed, int) and seed >= 0 for seed in cfg['test_seeds']))
 
     def test_exported_weights_are_numeric_and_bound(self):
         import hashlib
@@ -41,16 +37,23 @@ class ReleaseTests(unittest.TestCase):
         manifest = read(ROOT/'provenance/sources.json')['files']
         for name in NETWORKS:
             cfg = spec(name)
-            item = next(r for r in manifest if r['path'] == cfg['checkpoint'])
-            with np.load(ROOT/cfg['checkpoint'], allow_pickle=False) as arrays:
+            item = next(r for r in manifest if r['path'] == cfg['weights'])
+            with np.load(ROOT/cfg['weights'], allow_pickle=False) as arrays:
                 self.assertEqual(len(arrays.files), 6)
                 for key in arrays.files:
                     self.assertEqual(arrays[key].dtype, np.float32)
                     self.assertTrue(np.isfinite(arrays[key]).all())
                     self.assertEqual(hashlib.sha256(arrays[key].tobytes()).hexdigest(), item['tensor_hashes'][key])
 
-    def test_beta_schedule(self):
-        self.assertEqual([beta_for_episode(i) for i in range(1, 8)], [0., 0., .05, .1, .15, .2, .2])
+    def test_cli_is_evaluation_only(self):
+        from run import parser
+        import argparse
+        cli = parser()
+        commands = next(a for a in cli._actions if isinstance(a, argparse._SubParsersAction))
+        self.assertEqual(set(commands.choices), {'check', 'evaluate', 'summarize'})
+        args = cli.parse_args(['evaluate', '--network', 'grid16', '--output', 'runs/test'])
+        self.assertEqual(args.data_root, Path(__import__('os').environ.get('CILIGHT_DATA_ROOT', ROOT/'scenarios')))
+        self.assertEqual(args.seconds, 3600)
 
     def test_critic_terminal_zero(self):
         model = TerminalCritic()
@@ -71,14 +74,20 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(NumpyTerminalValue(model.numpy_weights(), 0, 120., 3)(topo, queue, arrival, 0), 0)
         self.assertEqual(NumpyTerminalValue(model.numpy_weights(), .5, 0., 3)(topo, queue, arrival, 0), 0)
 
-    def test_synthetic_critic_update(self):
-        torch.manual_seed(8)
-        model = TerminalCritic()
-        before = [v.clone() for v in model.parameters()]
-        rows = [dict(features=np.ones((2, 12)), cost=np.array([.1, .2])) for _ in range(3)]
-        report = fit_terminal(model, torch.optim.Adam(model.parameters(), lr=3e-4), rows, 99, epochs=2)
-        self.assertTrue(math.isfinite(report['loss']))
-        self.assertTrue(any(not torch.equal(a, b) for a, b in zip(before, model.parameters())))
+    def test_final_weight_loading_is_bound_and_frozen(self):
+        from cilight.runtime import load_critic
+        for name in NETWORKS:
+            cfg = spec(name)
+            model = load_critic(ROOT/cfg['weights'], cfg['weights_sha256'])
+            self.assertFalse(model.training)
+            self.assertTrue(all(not p.requires_grad for p in model.parameters()))
+            with np.load(ROOT/cfg['weights'], allow_pickle=False) as arrays:
+                for key, value in model.state_dict().items():
+                    np.testing.assert_array_equal(value.numpy(), arrays[key])
+            with self.assertRaises(ValueError):
+                load_critic(ROOT/cfg['weights'], '0'*64)
+        with self.assertRaises(ValueError):
+            load_critic(ROOT/'unknown.pt', '0'*64)
 
     def test_aql_and_missing_sample(self):
         aql = AQL(('a', 'b'))

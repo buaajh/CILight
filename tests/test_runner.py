@@ -5,8 +5,6 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-import numpy as np
-
 from cilight.io import spec, verify_result
 
 
@@ -50,14 +48,12 @@ class MockedRunnerTests(unittest.TestCase):
             class FakeController:
                 def __init__(self, *args, **kwargs):
                     self.diagnostics = []
-                    self.learning_rows = []
                     self.actual_phase_trace = []
                     self.local_diagnostics = [{'success': True}]
 
                 def step(self, t):
                     if t == 0:
                         self.diagnostics.append(dict(simulation_time=t, phase_choices='tl:0', decision_time_s=.001))
-                        self.learning_rows.append(dict(features=np.ones((1, 12)), cost=np.zeros(1)))
                     self.actual_phase_trace.append(dict(time=t, nodes={'tl': dict(phase=0, pending=None, yellow=False)}))
 
                 def close(self):
@@ -68,13 +64,13 @@ class MockedRunnerTests(unittest.TestCase):
             connection = FakeConnection()
             with patch('cilight.runtime.admission'), patch('utils.sumo_utils.start_sumo', return_value=connection) as start, \
                     patch('controllers.terminal_value.TerminalValueCIMPC', FakeController):
-                metrics, rows = run_episode(settings, source, destination, 1, seconds=10)
+                metrics = run_episode(settings, source, destination, 1, seconds=10)
             self.assertTrue(start.call_args.kwargs['tripinfo_write_unfinished'])
             self.assertEqual(calls, [('controller_close', True), ('close', True)])
             self.assertEqual(metrics['samples'], 10)
             self.assertEqual(metrics['decision_count'], 1)
             self.assertEqual(metrics['demand'], 1)
-            self.assertEqual(len(rows), 1)
+            self.assertFalse((destination/'learning.pt').exists())
             self.assertEqual(verify_result(destination)['average_trip_time_s'], 10)
 
 
