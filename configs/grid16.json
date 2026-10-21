@@ -1,0 +1,61 @@
+{
+  "name": "Grid16",
+  "network": "grid16",
+  "signal_count": 16,
+  "sumocfg": "grid16/grid4x4.sumocfg",
+  "seconds": 3600,
+  "interval": 10,
+  "horizon": 3,
+  "min_green": 10,
+  "max_green": 60,
+  "yellow": 3,
+  "solver_workers": 1,
+  "seed_base": 960000,
+  "test_seeds": [
+    962001,
+    962002,
+    962003,
+    962004
+  ],
+  "validation_seeds": [
+    961001,
+    961002,
+    961003,
+    961004
+  ],
+  "model_seed": 963001,
+  "update_seed": 964000,
+  "selected_episode": 30,
+  "checkpoint": "checkpoints/grid16.npz",
+  "checkpoint_sha256": "4cc04c2fbd23409f964c1d2c93ada78438cee2486db238f307eb22747f2e7e86",
+  "test_used_for_selection": false,
+  "evaluation_beta": 0.5,
+  "inputs": [
+    {
+      "path": "e1.add.xml",
+      "sha256": "91485b00eb21993f6ce6af20ff3982ccb0ff9e37a79397306b3702df2cde89d2",
+      "bytes": 20700
+    },
+    {
+      "path": "e2.add.xml",
+      "sha256": "45235c5fc64196277d4d81f3abf08f6055813064b1080bef9ef80194df11ca31",
+      "bytes": 26028
+    },
+    {
+      "path": "grid4x4.net.xml",
+      "sha256": "0af71d655e4d0c0e2f0a39883b60a1f95d662e930794a9c76bf961402608869d",
+      "bytes": 462097
+    },
+    {
+      "path": "grid4x4.sumocfg",
+      "sha256": "4f6a347095f0d31f018efb00d602e57b3a8d79fa538f6107a0c6844801bfe340",
+      "bytes": 260
+    },
+    {
+      "path": "grid4x4_1.rou.xml",
+      "sha256": "b47dce1c3b778699171171ea9459c8d8717e73101713f5f52c3eddcc9973d798",
+      "bytes": 166751
+    }
+  ],
+  "original_checkpoint_sha256": "7039cb1f75e6e6736c5344a1c09d65172cd24dfe4a19e4b11313bc2925ec40f7"
+}

@@ -1,0 +1,66 @@
+{
+  "name": "Ingolstadt21",
+  "network": "ingolstadt21",
+  "signal_count": 21,
+  "sumocfg": "ingolstadt21/ingolstadt21.sumocfg",
+  "seconds": 3600,
+  "interval": 10,
+  "horizon": 3,
+  "min_green": 10,
+  "max_green": 60,
+  "yellow": 3,
+  "solver_workers": 1,
+  "seed_base": 970000,
+  "test_seeds": [
+    972001,
+    972002,
+    972003,
+    972004
+  ],
+  "validation_seeds": [
+    971001,
+    971002,
+    971003,
+    971004
+  ],
+  "model_seed": 973001,
+  "update_seed": 974000,
+  "selected_episode": 40,
+  "checkpoint": "checkpoints/ingolstadt21.npz",
+  "checkpoint_sha256": "e2be0599bfcbadfc57e7cd50798c841b8b9bf72f5395d60417b616400bbc0897",
+  "test_used_for_selection": false,
+  "evaluation_beta": 0.5,
+  "inputs": [
+    {
+      "path": "e1.add.xml",
+      "sha256": "162386d6cba4fc905df0ebfc1025051f924741784e48f7256bbfa708ab9e93da",
+      "bytes": 18873
+    },
+    {
+      "path": "e2.add.xml",
+      "sha256": "5527f6dbea616adfa6f1ec14e1fd605d3f205833dc8265d7d2ef468a3824d81e",
+      "bytes": 22495
+    },
+    {
+      "path": "ingolstadt21.net.xml",
+      "sha256": "67b4cb8a6a346ef26b9db92253d913c6846fed4b15785694677c54b1b9b00284",
+      "bytes": 1860867
+    },
+    {
+      "path": "ingolstadt21.rou.xml",
+      "sha256": "3123d5dd37b9ac5cd0ef660b65aec394e6b0c73e65f67117e0895d3b2464b812",
+      "bytes": 425223
+    },
+    {
+      "path": "ingolstadt21.sumocfg",
+      "sha256": "0b66689a57787f82d82b70ede01de474feb431c484a4353dd3474a7fd349e89c",
+      "bytes": 267
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "bytes": 35149
+    }
+  ],
+  "original_checkpoint_sha256": "98f979453938149fdd7b85466fadfbef59cc407130017420d2bafea7590f8320"
+}

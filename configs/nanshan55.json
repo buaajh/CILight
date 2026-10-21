@@ -1,0 +1,91 @@
+{
+  "name": "Nanshan55",
+  "network": "nanshan55",
+  "signal_count": 55,
+  "sumocfg": "nanshan55/osm.sumocfg",
+  "seconds": 3600,
+  "interval": 10,
+  "horizon": 3,
+  "min_green": 10,
+  "max_green": 60,
+  "yellow": 3,
+  "solver_workers": 1,
+  "seed_base": 980000,
+  "test_seeds": [
+    982001,
+    982002,
+    982003,
+    982004
+  ],
+  "validation_seeds": [
+    981001,
+    981002,
+    981003,
+    981004
+  ],
+  "model_seed": 983001,
+  "update_seed": 984000,
+  "selected_episode": 90,
+  "checkpoint": "checkpoints/nanshan55.npz",
+  "checkpoint_sha256": "23170502c32d660605f10b5f785b09f17a7a488148777c86e989330921a6b6df",
+  "test_used_for_selection": false,
+  "evaluation_beta": 0.5,
+  "inputs": [
+    {
+      "path": "e1detectors.add.xml",
+      "sha256": "478ea2268c4c6472c4a9f34243e4331d267f0b0840d876a4ab8551216d2706f8",
+      "bytes": 37640
+    },
+    {
+      "path": "e2detectors.add.xml",
+      "sha256": "de5fc738342b55a8d025ed08348ddc36523b8ddf54718b04859d9d9af51ba24e",
+      "bytes": 43079
+    },
+    {
+      "path": "osm.bus.trips.xml",
+      "sha256": "e081b94dca844aaf5ecd099d553a543a12e55728b7a142d7cdb60e15f298c1a0",
+      "bytes": 485659
+    },
+    {
+      "path": "osm.net.xml",
+      "sha256": "eb03dc72bdf32348f21bc9505786d132b196d7b7ed350b86f04ecb4acd86dfcd",
+      "bytes": 6195270
+    },
+    {
+      "path": "osm.passenger.trips.xml",
+      "sha256": "19f8a266ce02a12ca15d7b4e7b4a7d3278f0b0159019471cfbc109e65e2ba04a",
+      "bytes": 1096044
+    },
+    {
+      "path": "osm.poly.xml",
+      "sha256": "2549a34d221298b7ca2d4cbc4054d83a5b83a4064600241aa631035e943e0ca0",
+      "bytes": 802079
+    },
+    {
+      "path": "osm.sumocfg",
+      "sha256": "81967c563ca4cc38bd0225328690477116653cabaf8db41eb14b3f278f47046e",
+      "bytes": 1016
+    },
+    {
+      "path": "osm.truck.trips.xml",
+      "sha256": "04b371b547cb787cef9b349b817624269da1cf64a4ba7b12408ee0cf9dd3f655",
+      "bytes": 294172
+    },
+    {
+      "path": "osm.view.xml",
+      "sha256": "de3ae8e8769b9177bbd3be7f10076e322767b6b98450b60388723c3fd59fb459",
+      "bytes": 88
+    },
+    {
+      "path": "osm_pt.rou.xml",
+      "sha256": "29e450d9af0551d19d5a76d81145a8adcf4b675fb3160b7b1978bd32af609c17",
+      "bytes": 1663
+    },
+    {
+      "path": "osm_stops.add.xml",
+      "sha256": "3939b697b3efd56a38e5edc144084af76356f72571a6056a07ffcd18fc94f309",
+      "bytes": 1955
+    }
+  ],
+  "original_checkpoint_sha256": "cc4c083199b75fd8d1f697e85b58551af8efe43acd3b1591d93c42c0fc2a4110"
+}
