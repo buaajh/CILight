@@ -137,7 +137,7 @@ python -B run.py summarize --input runs/nanshan55 --output runs/nanshan55_summar
 - **AQL**: time-averaged halting count per unique controlled incoming lane, including empty lanes.
 - Decision latency is measured over whole-network controller updates. Simulation wall time is reported separately. These timings depend on hardware, concurrency and instrumentation.
 
-Four traffic seeds quantify traffic-seed variability for one trained model; they are not four independent training repetitions. The main-table checkpoint identities are retained. Previously observed Nanshan baseline discrepancies remain unresolved; this packaging work neither investigates them nor certifies exact reproduction of published aggregates. The RQ3 rerun baselines are not substituted for the original main-table baseline.
+Four traffic seeds quantify traffic-seed variability for one trained model; they are not four independent training repetitions.
 
 ## Tests
 
