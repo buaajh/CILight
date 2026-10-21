@@ -1,0 +1,66 @@
+[
+  {
+    "network": "grid16",
+    "original_sha256": "7039cb1f75e6e6736c5344a1c09d65172cd24dfe4a19e4b11313bc2925ec40f7",
+    "exported_sha256": "4cc04c2fbd23409f964c1d2c93ada78438cee2486db238f307eb22747f2e7e86",
+    "tensor_keys": [
+      "net.0.weight",
+      "net.0.bias",
+      "net.2.weight",
+      "net.2.bias",
+      "net.4.weight",
+      "net.4.bias"
+    ],
+    "tensor_exact": true,
+    "model_instantiated": false,
+    "inference_run": false
+  },
+  {
+    "network": "ingolstadt21",
+    "original_sha256": "98f979453938149fdd7b85466fadfbef59cc407130017420d2bafea7590f8320",
+    "exported_sha256": "e2be0599bfcbadfc57e7cd50798c841b8b9bf72f5395d60417b616400bbc0897",
+    "tensor_keys": [
+      "net.0.weight",
+      "net.0.bias",
+      "net.2.weight",
+      "net.2.bias",
+      "net.4.weight",
+      "net.4.bias"
+    ],
+    "tensor_exact": true,
+    "model_instantiated": false,
+    "inference_run": false
+  },
+  {
+    "network": "nanshan55",
+    "original_sha256": "cc4c083199b75fd8d1f697e85b58551af8efe43acd3b1591d93c42c0fc2a4110",
+    "exported_sha256": "23170502c32d660605f10b5f785b09f17a7a488148777c86e989330921a6b6df",
+    "tensor_keys": [
+      "net.0.weight",
+      "net.0.bias",
+      "net.2.weight",
+      "net.2.bias",
+      "net.4.weight",
+      "net.4.bias"
+    ],
+    "tensor_exact": true,
+    "model_instantiated": false,
+    "inference_run": false
+  },
+  {
+    "network": "newyork196",
+    "original_sha256": "d195b3f9decff30573b8f1a0ad8c7e4d5ea0177dea1f4fc85c719881c2aa3b54",
+    "exported_sha256": "09f4e725bcf5bb038be27a09c2e4f58406679f9a4b8d291b2c6e719a5e6182e3",
+    "tensor_keys": [
+      "net.0.weight",
+      "net.0.bias",
+      "net.2.weight",
+      "net.2.bias",
+      "net.4.weight",
+      "net.4.bias"
+    ],
+    "tensor_exact": true,
+    "model_instantiated": false,
+    "inference_run": false
+  }
+]

@@ -1,0 +1,172 @@
+{
+  "files": [
+    {
+      "path": "config.py",
+      "source": "benchmark/config.py",
+      "sha256": "15b04986a1f49f1bef6f19c43e813eefefe0c9be1f42a1e3a25676ac1978f6f8",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "utils/sumo_utils.py",
+      "source": "benchmark/utils/sumo_utils.py",
+      "sha256": "dec7b8653e2ea2004f9d13721e1fd52cef03e2eb2be0519c30e2333192409ffc",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "utils/sumo_statistics.py",
+      "source": "benchmark/utils/sumo_statistics.py",
+      "sha256": "af48d6bda9d4dbc3f2ef93d89cec8e386c1721da663d5916f984d8338b2f8749",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "controllers/base_controller.py",
+      "source": "benchmark/controllers/base_controller.py",
+      "sha256": "19dff609b7b58c56f5de72f0fbdaaa2c1d229b222551bb9b8c6763b5df55a872",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "controllers/ci_mpc.py",
+      "source": "benchmark/controllers/ci_mpc.py",
+      "sha256": "80b9db14f2dfacbc3a2ace2a30e0e30a4e1d6b213182250effc1b833fb182ec4",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "controllers/external_cooperative_ci_mpc.py",
+      "source": "benchmark/controllers/external_cooperative_ci_mpc.py",
+      "sha256": "838dd8cb0e95687f6e897753069cfe8f9afa579f95ee081727aa01837e97055e",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "controllers/l_cimpc_v2.py",
+      "source": "benchmark/controllers/l_cimpc_v2.py",
+      "sha256": "1111ab4ceb8d016b4279cac54b4eadd38d1f71247de31483a0087211ffa6a143",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "controllers/structured_l_cimpc.py",
+      "source": "benchmark/controllers/structured_l_cimpc.py",
+      "sha256": "4b3342a0cd1252cf83f594526bb923ccce0f9554c5188da84da379a958dff9e8",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "controllers/joint_budget_l_cimpc.py",
+      "source": "benchmark/controllers/joint_budget_l_cimpc.py",
+      "sha256": "b12196048cea0c50f39cccb09064e490ffc7c61224ec7d35b0b7ec33d34f3002",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "controllers/executable_joint_budget_l_cimpc.py",
+      "source": "benchmark/controllers/executable_joint_budget_l_cimpc.py",
+      "sha256": "e3c7a0bf6e6ab6908d5eac19ba9240eb13dddd6d06eb1f11f9ea25dedbdf621a",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "controllers/held_executable_joint_l_cimpc.py",
+      "source": "benchmark/controllers/held_executable_joint_l_cimpc.py",
+      "sha256": "f328745cf6d6be37fbbeccb86492884783178dff6aaa4e3b0f9b2cf1786f28b3",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "rl/terminal_value.py",
+      "source": "benchmark/rl/terminal_budget_ab.py",
+      "source_sha256": "1025fc828c98d0f9e9c5e5b46c87ac506dae3e7e92c393829144c0a61ac1a462",
+      "sha256": "c93e8ed80da5424d059049a6dfd861ea1a1ca35b9d974f69da31882114f14e02",
+      "mode": "AST_identical_extraction",
+      "symbols": [
+        "GAMMA",
+        "COST_SCALE",
+        "terminal_features",
+        "TerminalCritic",
+        "NumpyTerminalValue",
+        "fit_terminal"
+      ]
+    },
+    {
+      "path": "controllers/terminal_value.py",
+      "source": "benchmark/controllers/terminal_budget_ab.py",
+      "source_sha256": "d1e25224d4753b7c77c93908c57f1dc5aa096abd7a54225f0647d00eb14472a5",
+      "sha256": "1e833504304b60889c6a7255ade3d82ab9b0da5fe57188be9112302fa2826b99",
+      "mode": "AST_identical_extraction",
+      "symbols": [
+        "TerminalValueCIMPC"
+      ]
+    },
+    {
+      "path": "cilight/aql.py",
+      "source": "mainline/diagnostics_v1/aql.py",
+      "sha256": "b0b7ac5c99bae6e4abba065d7ea08fccd12a812ab731c90f6c2af30f27816a6b",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "cilight/selection_policy.py",
+      "source": "mainline/early_stop_v1/policy.py",
+      "sha256": "ad284ab24dfae79bf3cd78a4d30dce7fd59e1a4d14d269db436f8b53a5825bd7",
+      "mode": "byte_identical"
+    },
+    {
+      "path": "checkpoints/grid16.npz",
+      "source": "mainline/training_v1/runs/grid4x4_resume_v3/checkpoints/episode_0030.pt",
+      "sha256": "4cc04c2fbd23409f964c1d2c93ada78438cee2486db238f307eb22747f2e7e86",
+      "mode": "tensor_exact_npz_export",
+      "selected_episode": 30,
+      "source_sha256": "7039cb1f75e6e6736c5344a1c09d65172cd24dfe4a19e4b11313bc2925ec40f7",
+      "tensor_hashes": {
+        "net.0.weight": "ce29557dde8f059199f9ef4834cb00dddefb0345f59cc9d6a5b218ec81048e98",
+        "net.0.bias": "8503ba80e27034c87bbdc5670f3f3ab24f350c03c12ce533ce16157e51433d15",
+        "net.2.weight": "4721ec89b344ac0acd4acaae335f63324b4e4f9e94910224498c98630bf74069",
+        "net.2.bias": "0bb8b5a7a49a1ed9e64ac399ec42abb2d3811d635602d1577577c592496ae406",
+        "net.4.weight": "3792bfd7a4eac79002efad767793574cdf7442115f8c74ecc04c4e591fdb114d",
+        "net.4.bias": "3ad13e7bf4f0bdc105a5844609c9372648897fb5865282a9169a97111c847009"
+      }
+    },
+    {
+      "path": "checkpoints/ingolstadt21.npz",
+      "source": "mainline/training_v1/runs/ingolstadt21_resume_v2/checkpoints/episode_0040.pt",
+      "sha256": "e2be0599bfcbadfc57e7cd50798c841b8b9bf72f5395d60417b616400bbc0897",
+      "mode": "tensor_exact_npz_export",
+      "selected_episode": 40,
+      "source_sha256": "98f979453938149fdd7b85466fadfbef59cc407130017420d2bafea7590f8320",
+      "tensor_hashes": {
+        "net.0.weight": "3d8ef7024e47aba64e532bd9707eed18d72ffd48ac56b1972e350977b119fce9",
+        "net.0.bias": "f44714ef85374bf4b587cf9210bb7921eaec0f045b51fbd5a286676364c5276d",
+        "net.2.weight": "e94fbecc7019ccb3fb567611ce1cec87452b29b339bd83f2524f6a799dfc817c",
+        "net.2.bias": "c241ff0af29c0fef52de3132a8a2e9923abb1d78b0c11e6bb15fc0b7019ad1b0",
+        "net.4.weight": "0a7f97c5cc11a21484fd59a290d0092022a8fa9b7a76fc777297bf24b85a656b",
+        "net.4.bias": "2b7ec4efd57f7a4a792f066c8a5774519af48a8d8f9876c88e2a43c7946c27bd"
+      }
+    },
+    {
+      "path": "checkpoints/nanshan55.npz",
+      "source": "mainline/training_v1/runs/nanshan_native_v3/checkpoints/episode_0090.pt",
+      "sha256": "23170502c32d660605f10b5f785b09f17a7a488148777c86e989330921a6b6df",
+      "mode": "tensor_exact_npz_export",
+      "selected_episode": 90,
+      "source_sha256": "cc4c083199b75fd8d1f697e85b58551af8efe43acd3b1591d93c42c0fc2a4110",
+      "tensor_hashes": {
+        "net.0.weight": "a887ae1c8c1ebc8323ef513eafce93d1fe0474adc47e6b37de307e1b283d51a2",
+        "net.0.bias": "967a70ec33e47a572c1eb700658e8304e810e3a4b44dd75cbed733eaf1597fbb",
+        "net.2.weight": "938989557d3c960be2087adab69406fd5677eaaa1093061970cfde28905ea5d9",
+        "net.2.bias": "cecd7ade7b16dbc762977eed77ac1d06ff31678ca22242c664e4c864d5c3706f",
+        "net.4.weight": "009b7440738eae06c5d46eb8d564ff877fb77a3815cfda4adf2e0ccde3de4a35",
+        "net.4.bias": "5f0d67b8d642610e0f26ad258e3f10f05f39970dfa0155684697a665d8d63514"
+      }
+    },
+    {
+      "path": "checkpoints/newyork196.npz",
+      "source": "mainline/newyork_recovery_v3/runs/formal/checkpoints/episode_0010.pt",
+      "sha256": "09f4e725bcf5bb038be27a09c2e4f58406679f9a4b8d291b2c6e719a5e6182e3",
+      "mode": "tensor_exact_npz_export",
+      "selected_episode": 10,
+      "source_sha256": "d195b3f9decff30573b8f1a0ad8c7e4d5ea0177dea1f4fc85c719881c2aa3b54",
+      "tensor_hashes": {
+        "net.0.weight": "a16c11ed1a93538caaf8146ac6d7b92003974858ba95adc9f3790f2973b6f9b8",
+        "net.0.bias": "c192ad1f80317becce8bf5014a2fd761fd6aad56fc166a42d11c19838b64dc14",
+        "net.2.weight": "a6b20c7a3ec1303f0dbc404515a385f873d81125f1eb206ee409440ea7df3552",
+        "net.2.bias": "5098727c4950b78559ba9efc4410f6a6c12560f608cdcecc0ba3e1eafe0cf85c",
+        "net.4.weight": "8742daae9a6803f5b41f72bae05e06e37beb30881e2897a587cb6ae318061fb0",
+        "net.4.bias": "232711b15c27c511cb9d5595f73ab2925efbb72d720c5af2e2f02da9e9b5f943"
+      }
+    }
+  ],
+  "note": "No SUMO run or model inference. Core source identity and exact selected checkpoint tensors are preserved; weights exported with a restricted data-only loader."
+}
