@@ -11,7 +11,8 @@ configs/             Four network profiles, seed panels, input/model SHA-256
 controllers/         CI prediction, phase search, coordination and execution
 rl/terminal_value.py  Terminal features, critic, NumPy inference and learning
 cilight/             Portable runner, metrics, validation selection and reporting
-checkpoints/         Four tensor-exact, validation-selected CILight weight archives
+final_weights/       Four validation-selected final CILight weight files
+scenarios/           SUMO inputs for all four road networks
 provenance/          Original source and checkpoint identities
 tests/               Simulator-free unit tests
 run.py               check / evaluate / train / summarize
@@ -32,28 +33,28 @@ python -m pip install -r requirements.txt
 
 The packaged code was checked with Python 3.12.14, NumPy 1.26.4, SciPy 1.14.1 and PyTorch 2.7.1. A CPU PyTorch installation is sufficient for the small critic. SUMO and the local MPC workers run on CPU. The original Windows execution environment used a CUDA-enabled PyTorch build; this release does not claim cross-platform bitwise equivalence.
 
-Example environment variables:
+Run the following from the cloned repository root to use the included scenarios:
 
 ```powershell
 $env:SUMO_HOME = 'D:/software/sumo-1.27.1'
-$env:CILIGHT_DATA_ROOT = 'D:/datasets/cilight/scenarios'
+$env:CILIGHT_DATA_ROOT = (Resolve-Path './scenarios').Path
 ```
 
 ```bash
 export SUMO_HOME=/opt/sumo-1.27.1
-export CILIGHT_DATA_ROOT=/path/to/cilight/scenarios
+export CILIGHT_DATA_ROOT="$PWD/scenarios"
 ```
 
 ## Road networks and data
 
-| CLI network | Signals | Original test seeds | Selected episode | Yellow (s) | Solver workers |
-|---|---:|---|---:|---:|---:|
-| `grid16` | 16 | 962001–962004 | 30 | 3 | 1 |
-| `ingolstadt21` | 21 | 972001–972004 | 40 | 3 | 1 |
-| `nanshan55` | 55 | 982001–982004 | 90 | 3 | 1 |
-| `newyork196` | 196 | 992001–992004 | 10 | 5 | 8 |
+| CLI network | Signals | Original test seeds | Yellow (s) | Solver workers |
+|---|---:|---|---:|---:|
+| `grid16` | 16 | 962001–962004 | 3 | 1 |
+| `ingolstadt21` | 21 | 972001–972004 | 3 | 1 |
+| `nanshan55` | 55 | 982001–982004 | 3 | 1 |
+| `newyork196` | 196 | 992001–992004 | 5 | 8 |
 
-Place the scenario files under the following directory layout, or pass `--data-root` explicitly:
+The repository includes the following scenario layout. Set `CILIGHT_DATA_ROOT` as above, or pass `--data-root ./scenarios` explicitly:
 
 ```text
 scenarios/
@@ -63,9 +64,17 @@ scenarios/
   newyork196/newyork.sumocfg
 ```
 
-Each directory also needs the network, route and additional files listed in `configs/<network>.json`. These manifests record the exact experimental inputs, rather than silently substituting another scenario with the same name.
+Each directory includes the network, route and additional files listed in `configs/<network>.json`. These manifests record the SHA-256 digests of the exact experimental inputs.
 
-**Scenario data are distributed separately from this code repository.** Grid16 and Ingolstadt21 were imported through RESCO. The New York profile is the 196-signal SUMO conversion of the `roadnet_28_7` / `anon_28_7_newyork_real_double` scenario, not a 165-signal network. See [DATASETS.md](DATASETS.md) for sources and redistribution status. The prepared local companion directory contains all four exact inputs; it is not part of the public-code archive.
+All four scenarios are included under `scenarios/`. Grid16 and Ingolstadt21 were imported through RESCO. Nanshan uses an OpenStreetMap-derived network. New York is the 196-signal SUMO conversion of `roadnet_28_7` / `anon_28_7_newyork_real_double`. Dataset sources and attribution are recorded in [DATASETS.md](DATASETS.md); the code's MIT license does not replace the datasets' terms.
+
+Clone the repository or use GitHub's **Code > Download ZIP** for the complete code, weights and scenario inputs. The separately retained `CILight_public_code.zip` contains code and final weights only.
+
+## Final weights
+
+[`final_weights/`](final_weights/) contains one validation-selected final terminal-value network for each road network: `grid16.npz`, `ingolstadt21.npz`, `nanshan55.npz` and `newyork196.npz`.
+
+CILight uses these weights to estimate the continuation cost beyond the MPC prediction horizon. The four network configurations load the corresponding file automatically. CI-MPC uses no learned weights. Each file contains only the six numeric weight and bias arrays of the 12-32-32-1 terminal-value network; optimizer state, training logs and simulation results are excluded. The exported tensors match the original selected models exactly.
 
 ## Check the installation inputs
 

@@ -3,3 +3,5 @@
 *.py -text
 *.pt binary
 *.npz binary
+# Keep scenario input hashes identical after cloning on any platform.
+scenarios/** -text

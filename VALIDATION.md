@@ -7,7 +7,7 @@ Packaging date: 2026-10-21.
 - Eleven controller/configuration/metric helper files copied byte-for-byte from the mainline frozen source manifest.
 - `TerminalValueCIMPC` and six terminal-critic definitions extracted without changing their ASTs; unused A/B-policy imports excluded.
 - AQL and validation-selection policy copied from the mainline sources.
-- Four selected original checkpoint hashes match the original selection receipts (episodes 30, 40, 90 and 10).
+- The four final weight files are hash-bound to the original validation-selected models.
 - All six tensors in each exported `.npz` are exactly equal to the corresponding original checkpoint tensors. No controller/model was instantiated during this conversion, and no inference was run. Original `.pt` files remain in the local companion directory.
 - All four scenario manifests match the exact local input files; controlled signal counts are 16, 21, 55 and 196.
 - Core controller import and SUMO 1.27.1 binary version check succeed.
@@ -19,4 +19,4 @@ No SUMO simulation, full training run or formal baseline rerun was launched for 
 
 No Nanshan baseline-discrepancy diagnosis was performed. The existing unresolved discrepancy is retained as a reporting limitation, not relabeled as a passed reproducibility check.
 
-The public archive intentionally excludes scenario data pending a separate data-release review. All four exact local scenarios are available in the private companion directory for local use.
+All four exact scenarios are included in the repository under `scenarios/`, following the repository owner's 2026-10-21 publication request. Their input hashes and controlled-signal counts are unchanged. The final model weights are stored in `final_weights/`; configuration and provenance paths are updated while weight bytes remain identical. The separately retained `CILight_public_code.zip` contains code and final weights only.
