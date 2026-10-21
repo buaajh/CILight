@@ -104,11 +104,10 @@
       "mode": "byte_identical"
     },
     {
-      "path": "checkpoints/grid16.npz",
-      "source": "mainline/training_v1/runs/grid4x4_resume_v3/checkpoints/episode_0030.pt",
+      "path": "final_weights/grid16.npz",
+      "source": "Original validation-selected Grid16 terminal-value model",
       "sha256": "4cc04c2fbd23409f964c1d2c93ada78438cee2486db238f307eb22747f2e7e86",
       "mode": "tensor_exact_npz_export",
-      "selected_episode": 30,
       "source_sha256": "7039cb1f75e6e6736c5344a1c09d65172cd24dfe4a19e4b11313bc2925ec40f7",
       "tensor_hashes": {
         "net.0.weight": "ce29557dde8f059199f9ef4834cb00dddefb0345f59cc9d6a5b218ec81048e98",
@@ -120,11 +119,10 @@
       }
     },
     {
-      "path": "checkpoints/ingolstadt21.npz",
-      "source": "mainline/training_v1/runs/ingolstadt21_resume_v2/checkpoints/episode_0040.pt",
+      "path": "final_weights/ingolstadt21.npz",
+      "source": "Original validation-selected Ingolstadt21 terminal-value model",
       "sha256": "e2be0599bfcbadfc57e7cd50798c841b8b9bf72f5395d60417b616400bbc0897",
       "mode": "tensor_exact_npz_export",
-      "selected_episode": 40,
       "source_sha256": "98f979453938149fdd7b85466fadfbef59cc407130017420d2bafea7590f8320",
       "tensor_hashes": {
         "net.0.weight": "3d8ef7024e47aba64e532bd9707eed18d72ffd48ac56b1972e350977b119fce9",
@@ -136,11 +134,10 @@
       }
     },
     {
-      "path": "checkpoints/nanshan55.npz",
-      "source": "mainline/training_v1/runs/nanshan_native_v3/checkpoints/episode_0090.pt",
+      "path": "final_weights/nanshan55.npz",
+      "source": "Original validation-selected Nanshan55 terminal-value model",
       "sha256": "23170502c32d660605f10b5f785b09f17a7a488148777c86e989330921a6b6df",
       "mode": "tensor_exact_npz_export",
-      "selected_episode": 90,
       "source_sha256": "cc4c083199b75fd8d1f697e85b58551af8efe43acd3b1591d93c42c0fc2a4110",
       "tensor_hashes": {
         "net.0.weight": "a887ae1c8c1ebc8323ef513eafce93d1fe0474adc47e6b37de307e1b283d51a2",
@@ -152,11 +149,10 @@
       }
     },
     {
-      "path": "checkpoints/newyork196.npz",
-      "source": "mainline/newyork_recovery_v3/runs/formal/checkpoints/episode_0010.pt",
+      "path": "final_weights/newyork196.npz",
+      "source": "Original validation-selected New York196 terminal-value model",
       "sha256": "09f4e725bcf5bb038be27a09c2e4f58406679f9a4b8d291b2c6e719a5e6182e3",
       "mode": "tensor_exact_npz_export",
-      "selected_episode": 10,
       "source_sha256": "d195b3f9decff30573b8f1a0ad8c7e4d5ea0177dea1f4fc85c719881c2aa3b54",
       "tensor_hashes": {
         "net.0.weight": "a16c11ed1a93538caaf8146ac6d7b92003974858ba95adc9f3790f2973b6f9b8",
